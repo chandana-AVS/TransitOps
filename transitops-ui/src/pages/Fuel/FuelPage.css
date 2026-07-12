@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+.fuel-page{
+
+min-height:100vh;
+
+padding:40px;
+
+background:#f4f7fb;
+
+}
+
+/* ===========================
+HEADER
+=========================== */
+
+.fuel-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:35px;
+
+}
+
+.fuel-header h1{
+
+font-size:34px;
+
+color:#0f172a;
+
+margin-bottom:8px;
+
+}
+
+.fuel-header p{
+
+font-size:16px;
+
+color:#64748b;
+
+}
+
+/* ===========================
+BUTTON
+=========================== */
+
+.add-fuel-btn{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:14px 24px;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:600;
+
+color:white;
+
+background:linear-gradient(
+90deg,
+#2563eb,
+#3b82f6
+);
+
+box-shadow:0 12px 28px rgba(37,99,235,.25);
+
+transition:.3s;
+
+}
+
+.add-fuel-btn:hover{
+
+transform:translateY(-4px);
+
+}
+
+/* ===========================
+SEARCH
+=========================== */
+
+.search-section{
+
+margin-bottom:35px;
+
+}
+
+.search-box{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+background:white;
+
+padding:16px 20px;
+
+border-radius:16px;
+
+box-shadow:0 10px 24px rgba(0,0,0,.05);
+
+}
+
+.search-box svg{
+
+color:#64748b;
+
+}
+
+.search-box input{
+
+flex:1;
+
+border:none;
+
+outline:none;
+
+font-size:16px;
+
+background:transparent;
+
+}
+
+/* ===========================
+STATISTICS
+=========================== */
+
+.stats-grid{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:24px;
+
+margin-bottom:40px;
+
+}
+
+.stat-card{
+
+background:white;
+
+padding:28px;
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+
+transition:.3s;
+
+}
+
+.stat-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.stat-card svg{
+
+color:#2563eb;
+
+margin-bottom:18px;
+
+}
+
+.stat-card h2{
+
+font-size:30px;
+
+color:#0f172a;
+
+margin-bottom:8px;
+
+}
+
+.stat-card span{
+
+color:#64748b;
+
+}
+
+/* ===========================
+GRID
+=========================== */
+
+.fuel-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+
+gap:28px;
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+.fuel-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.stats-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:600px){
+
+.fuel-page{
+
+padding:20px;
+
+}
+
+.stats-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.fuel-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
