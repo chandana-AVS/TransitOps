@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  FLEET_MANAGER
+  DRIVER
+  SAFETY_OFFICER
+  FINANCIAL_ANALYST
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  ON_TRIP
+  IN_SHOP
+  RETIRED
+}
+
+enum DriverStatus {
+  AVAILABLE
+  ON_TRIP
+  OFF_DUTY
+  SUSPENDED
+}
+
+enum TripStatus {
+  DRAFT
+  DISPATCHED
+  COMPLETED
+  CANCELLED
+}
+
+enum MaintenanceStatus {
+  OPEN
+  CLOSED
+}
+
+enum ExpenseType {
+  TOLL
+  MAINTENANCE
+  OTHER
+}
+
+model Role {
+  id    Int        @id @default(autoincrement())
+  name  RoleName   @unique
+  users User[]
+}
+
+model User {
+  id               Int           @id @default(autoincrement())
+  name             String
+  email            String        @unique
+  passwordHash     String        @map("password_hash")
+  roleId           Int           @map("role_id")
+  role             Role          @relation(fields: [roleId], references: [id])
+  driver           Driver?
+  createdTrips     Trip[]        @relation("TripCreator")
+  sentMessages     ChatMessage[] @relation("SentMessages")
+  receivedMessages ChatMessage[] @relation("ReceivedMessages")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Vehicle {
+  id                 Int           @id @default(autoincrement())
+  registrationNumber String        @unique @map("registration_number")
+  name               String
+  model              String
+  type               String
+  maxLoadCapacity    Decimal       @map("max_load_capacity")
+  odometer           Decimal       @default(0)
+  acquisitionCost    Decimal       @map("acquisition_cost")
+  status             VehicleStatus @default(AVAILABLE)
+  region             String        @default("")
+  trips              Trip[]
+  maintenanceLogs    MaintenanceLog[]
+  fuelLogs           FuelLog[]
+  expenses           Expense[]
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime      @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@map("vehicles")
+}
+
+model Driver {
+  id               Int          @id @default(autoincrement())
+  userId           Int          @unique @map("user_id")
+  user             User         @relation(fields: [userId], references: [id])
+  licenseNumber    String       @unique @map("license_number")
+  licenseCategory  String       @map("license_category")
+  licenseExpiryDate DateTime   @map("license_expiry_date")
+  contactNumber    String       @map("contact_number")
+  safetyScore      Decimal      @default(5.0) @map("safety_score")
+  status           DriverStatus @default(AVAILABLE)
+  trips            Trip[]
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([licenseExpiryDate])
+  @@map("drivers")
+}
+
+model Trip {
+  id              Int         @id @default(autoincrement())
+  source          String
+  destination     String
+  vehicleId       Int         @map("vehicle_id")
+  vehicle         Vehicle     @relation(fields: [vehicleId], references: [id])
+  driverId        Int         @map("driver_id")
+  driver          Driver      @relation(fields: [driverId], references: [id])
+  cargoWeight     Decimal     @map("cargo_weight")
+  plannedDistance Decimal     @map("planned_distance")
+  actualDistance  Decimal?    @map("actual_distance")
+  startOdometer   Decimal?    @map("start_odometer")
+  endOdometer     Decimal?    @map("end_odometer")
+  status          TripStatus  @default(DRAFT)
+  dispatchedAt    DateTime?   @map("dispatched_at")
+  completedAt     DateTime?   @map("completed_at")
+  cancelledAt     DateTime?   @map("cancelled_at")
+  createdById     Int         @map("created_by")
+  createdBy       User        @relation("TripCreator", fields: [createdById], references: [id])
+  fuelLogs        FuelLog[]
+  expenses        Expense[]
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([vehicleId])
+  @@index([driverId])
+  @@map("trips")
+}
+
+model MaintenanceLog {
+  id          Int               @id @default(autoincrement())
+  vehicleId   Int               @map("vehicle_id")
+  vehicle     Vehicle           @relation(fields: [vehicleId], references: [id])
+  description String
+  cost        Decimal
+  status      MaintenanceStatus @default(OPEN)
+  openedAt    DateTime          @default(now()) @map("opened_at")
+  closedAt    DateTime?         @map("closed_at")
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  @@index([vehicleId])
+  @@index([status])
+  @@map("maintenance_logs")
+}
+
+model FuelLog {
+  id              Int      @id @default(autoincrement())
+  vehicleId       Int      @map("vehicle_id")
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id])
+  tripId          Int?     @map("trip_id")
+  trip            Trip?    @relation(fields: [tripId], references: [id])
+  liters          Decimal
+  cost            Decimal
+  odometerReading Decimal  @map("odometer_reading")
+  loggedDate      DateTime @map("logged_date")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@map("fuel_logs")
+}
+
+model Expense {
+  id          Int         @id @default(autoincrement())
+  vehicleId   Int?        @map("vehicle_id")
+  vehicle     Vehicle?    @relation(fields: [vehicleId], references: [id])
+  tripId      Int?        @map("trip_id")
+  trip        Trip?       @relation(fields: [tripId], references: [id])
+  type        ExpenseType
+  amount      Decimal
+  description String
+  expenseDate DateTime    @map("expense_date")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@map("expenses")
+}
+
+model ChatMessage {
+  id         Int      @id @default(autoincrement())
+  senderId   Int      @map("sender_id")
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId Int?     @map("receiver_id")
+  receiver   User?    @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  message    String
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@map("chat_messages")
+}
