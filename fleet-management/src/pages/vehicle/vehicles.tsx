@@ -1,4 +1,7 @@
 import { useState } from "react";
+//import { useState } from "react";
+
+import VehicleForm from "../../components/vehicle/vehicleform/vehicleform";
 
 import VehicleTable from "../../components/vehicle/vehicletable/vehicletable";
 
@@ -33,6 +36,7 @@ const vehicleData = [
 ];
 
 function Vehicles() {
+  const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState("");
 
   const [status, setStatus] = useState("");
@@ -57,7 +61,8 @@ function Vehicles() {
           <p>Manage fleet vehicles</p>
         </div>
 
-        <button>+ Add Vehicle</button>
+        <button onClick={() => setShowForm(true)}>+ Add Vehicle</button>
+        {showForm && <VehicleForm onClose={() => setShowForm(false)} />}
       </div>
 
       <VehicleFilters
