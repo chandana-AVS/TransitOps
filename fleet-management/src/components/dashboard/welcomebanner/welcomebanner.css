@@ -1,0 +1,63 @@
+.welcome-banner {
+  padding: 25px;
+
+  border-radius: 12px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.welcome-text h2 {
+  margin: 0;
+}
+
+.welcome-text p {
+  margin-top: 8px;
+}
+
+.summary-items {
+  display: flex;
+
+  gap: 20px;
+}
+
+.summary-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  border-radius: 10px;
+}
+
+.summary-card svg {
+  font-size: 28px;
+}
+
+.summary-card h3 {
+  margin: 0;
+}
+
+.summary-card p {
+  margin: 0;
+
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .welcome-banner {
+    flex-direction: column;
+
+    gap: 20px;
+  }
+
+  .summary-items {
+    flex-wrap: wrap;
+  }
+}
