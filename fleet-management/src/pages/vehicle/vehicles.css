@@ -1,0 +1,49 @@
+.vehicle-table {
+  width: 100%;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  overflow-x: auto;
+}
+
+.vehicle-table table {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+.vehicle-table th {
+  text-align: left;
+
+  padding: 14px;
+
+  font-size: 14px;
+
+  border-bottom: 1px solid #ddd;
+}
+
+.vehicle-table td {
+  padding: 14px;
+
+  border-bottom: 1px solid #eee;
+
+  font-size: 14px;
+}
+
+.vehicle-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.vehicle-table button {
+  padding: 8px 14px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}

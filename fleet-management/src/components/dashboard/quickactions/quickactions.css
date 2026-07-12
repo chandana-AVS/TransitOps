@@ -1,0 +1,25 @@
+.quick-actions {
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+}
+
+.action-buttons {
+  display: flex;
+
+  gap: 15px;
+
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  padding: 12px 18px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}

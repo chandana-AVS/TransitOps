@@ -1,0 +1,27 @@
+.activity-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:12px;
+
+}
+
+
+.activity{
+
+display:flex;
+
+gap:10px;
+
+align-items:center;
+
+}
+
+
+.activity p{
+
+margin:10px 0;
+
+}

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "../layouts/mainlayout";
 
 import Dashboard from "../pages/Dashboard/dashboard";
-import Vehicles from "../pages/vehicles";
+import Vehicles from "../pages/vehicle/vehicles";
 import Drivers from "../pages/drivers";
 import Trips from "../pages/trips";
 import Maintenance from "../pages/maintenance";
