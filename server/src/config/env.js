@@ -6,7 +6,6 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16),
   PORT: z.coerce.number().default(3001),
   CLIENT_URL: z.string().default("http://localhost:5173"),
-  GOOGLE_CHAT_WEBHOOK: z.string().url().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

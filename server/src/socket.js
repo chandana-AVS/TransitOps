@@ -5,7 +5,7 @@ const prisma = require("./config/db");
 
 function setupSocket(httpServer) {
   const io = new Server(httpServer, {
-    cors: { origin: env.CLIENT_URL, credentials: true },
+    cors: { origin: env.CLIENT_URL.split(","), credentials: true },
   });
 
   io.use((socket, next) => {

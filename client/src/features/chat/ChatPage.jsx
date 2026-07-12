@@ -22,7 +22,8 @@ export default function ChatPage() {
   useEffect(() => {
     if (!user) return;
     const token = localStorage.getItem("token");
-    const socket = io("http://localhost:3001", {
+    const socketUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace("/api", "") : "http://localhost:3001";
+    const socket = io(socketUrl, {
       auth: { token },
       transports: ["websocket", "polling"],
     });

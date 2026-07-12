@@ -18,7 +18,7 @@ const chatRoutes = require("./modules/chat/chat.routes");
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: env.CLIENT_URL }));
+app.use(cors({ origin: env.CLIENT_URL.split(",") }));
 app.use(morgan("dev"));
 app.use(express.json());
 
