@@ -44,20 +44,30 @@ Built for a **8-hour hackathon** — PostgreSQL, Express, React, Node.js stack.
 - Node.js 18+
 - PostgreSQL 16 (running on port 5432)
 
-### 1. Backend
+### 1. Create the database
+
+```bash
+psql -U postgres -c "CREATE DATABASE transitops;"
+```
+
+### 2. Backend
 
 ```bash
 cd server
-# Create and edit .env with your DB credentials
-# DATABASE_URL=postgresql://user:pass@localhost:5432/transitops
-# JWT_SECRET=your-secret-key
+
+# Create .env file with your DB credentials
+echo DATABASE_URL=postgresql://postgres:postgres@localhost:5432/transitops > .env
+echo JWT_SECRET=my-secret-key >> .env
+
 npm install
 npx prisma db push
 npx prisma db seed
 node src/server.js
 ```
 
-### 2. Frontend
+Server starts at **http://localhost:3001**
+
+### 3. Frontend
 
 ```bash
 cd client
@@ -65,9 +75,11 @@ npm install
 npm run dev
 ```
 
-### 3. Open
+Frontend starts at **http://localhost:5173**
 
-Go to `http://localhost:5173`
+### 4. Login
+
+Open `http://localhost:5173` and use any demo account below.
 
 ---
 
